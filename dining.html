@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dining - Hotel Mantra Bhiwadi</title>
+  <meta name="description" content="Experience 'Homely Food' and premium room service at Hotel Mantra's exquisite dining space.">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .dining-section {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      padding: var(--section-padding);
+      gap: 4rem;
+    }
+
+    .dining-content {
+      flex: 1 1 400px;
+    }
+
+    .dining-image {
+      flex: 1 1 400px;
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      box-shadow: var(--shadow-lg);
+    }
+    
+    .dining-features {
+      margin-top: 2rem;
+    }
+    
+    .dining-feature-item {
+      display: flex;
+      align-items: flex-start;
+      margin-bottom: 1.5rem;
+      gap: 1rem;
+    }
+    
+    .df-icon {
+      font-size: 2rem;
+      color: var(--color-primary);
+    }
+
+    .df-text h4 {
+      font-size: 1.2rem;
+      color: var(--color-secondary);
+      margin-bottom: 0.25rem;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="page-header" style="background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1555396273-367ea4eb4db5?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80')">
+    <div class="page-header-content container">
+      <h1 class="page-title">Dining & Restaurant</h1>
+      <p>Savor the taste of 'Homely Food' prepared with love and hygiene.</p>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="dining-section">
+      <div class="dining-image">
+        <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Restaurant Interior">
+      </div>
+      <div class="dining-content">
+        <h2 class="section-title" style="text-align: left;">Heartwarming Culinary Experience</h2>
+        <p>At Hotel Mantra, we believe that food is an emotion. Our chefs are dedicated to providing you with 'Homely Food' that reminds you of the comfort of your own dining table, all while sitting in our modern, beautifully designed restaurant space.</p>
+        
+        <div class="dining-features">
+          <div class="dining-feature-item">
+            <div class="df-icon"><i class="fas fa-utensils"></i></div>
+            <div class="df-text">
+              <h4>Homely Comfort Food</h4>
+              <p>Authentic, fresh, and hygienic meals cooked with local ingredients to give you the perfect taste.</p>
+            </div>
+          </div>
+          
+          <div class="dining-feature-item">
+            <div class="df-icon"><i class="fas fa-concierge-bell"></i></div>
+            <div class="df-text">
+              <h4>24/7 Room Service</h4>
+              <p>Enjoy our delicious menu items delivered straight to your room, anytime you desire.</p>
+            </div>
+          </div>
+          
+          <div class="dining-feature-item">
+            <div class="df-icon"><i class="fas fa-mug-hot"></i></div>
+            <div class="df-text">
+              <h4>Complimentary Breakfast</h4>
+              <p>A widespread buffet setup to kick-start your day with energy and joy.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="js/components.js"></script>
+</body>
+</html>
