@@ -1,193 +1,1378 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark scroll-smooth">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Hotel Mantra - Luxury Stay in Bhiwadi, Rajasthan</title>
-  <meta name="description" content="Hotel Mantra provides modern, luxurious rooms, homely dining, and top-tier amenities in Bhiwadi, Rajasthan. Direct booking available via WhatsApp.">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <link rel="stylesheet" href="css/style.css">
-  <style>
-    /* Home Specific Styles */
-    .hero {
-      height: 100vh;
-      background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.6)), url('https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80') center/cover no-repeat;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      color: var(--color-white);
-      padding: 0 5%;
-    }
+  <title>Alex Vance — Principal 3D Creative Technologist & Full-Stack Architect</title>
+  <meta name="description" content="Portfolio of Alex Vance - Principal 3D Creative Technologist & Elite Full-Stack Web Architect specializing in Three.js, WebGL, spatial UI, and high-performance applications.">
 
-    .hero-content {
-      max-width: 800px;
-      animation: fadeIn 1s ease-out forwards;
-      opacity: 0;
-      transform: translateY(20px);
-    }
-
-    @keyframes fadeIn {
-      to {
-        opacity: 1;
-        transform: translateY(0);
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            space: {
+              bg: '#08090C',
+              glow: '#121826',
+              card: 'rgba(255, 255, 255, 0.04)',
+              border: 'rgba(255, 255, 255, 0.1)',
+              hover: 'rgba(255, 255, 255, 0.08)'
+            },
+            cyan: {
+              accent: '#00F0FF',
+            },
+            violet: {
+              accent: '#7000FF',
+            },
+            crimson: {
+              accent: '#FF2A54',
+            }
+          },
+          fontFamily: {
+            sans: ['Space Grotesk', 'Inter', 'sans-serif'],
+            mono: ['Fira Code', 'JetBrains Mono', 'monospace'],
+          }
+        }
       }
     }
+  </script>
 
-    .hero h1 {
-      font-size: 4rem;
-      margin-bottom: 1rem;
-      text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+  <!-- Google Fonts & FontAwesome CDN -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <!-- Libraries: Three.js, GSAP, Canvas Confetti -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+  <!-- Custom CSS for 3D Spatial System & Glassmorphism -->
+  <style>
+    :root {
+      --bg-dark: #08090C;
+      --bg-glow: #121826;
+      --cyan-neon: #00F0FF;
+      --violet-neon: #7000FF;
+      --crimson-neon: #FF2A54;
+      --glass-bg: rgba(255, 255, 255, 0.035);
+      --glass-border: rgba(255, 255, 255, 0.08);
+      --glass-hover-border: rgba(0, 240, 255, 0.3);
     }
 
-    .hero p {
-      font-size: 1.25rem;
-      margin-bottom: 2rem;
-      opacity: 0.9;
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
     }
 
-    .hero-btns {
-      display: flex;
-      gap: 1rem;
-      justify-content: center;
-      flex-wrap: wrap;
+    body {
+      background-color: var(--bg-dark);
+      color: #FFFFFF;
+      font-family: 'Space Grotesk', sans-serif;
+      overflow-x: hidden;
+      selection-background-color: var(--cyan-neon);
+      selection-color: #08090C;
     }
 
-    .amenities {
-      background-color: var(--color-white);
-      padding: var(--section-padding);
+    ::selection {
+      background: var(--cyan-neon);
+      color: #08090C;
     }
 
-    .amenities-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 2rem;
-      text-align: center;
+    /* Spatial Ambient Radial Glow */
+    .bg-spatial-radial {
+      background: radial-gradient(circle at 50% 20%, #121826 0%, #08090C 75%);
     }
 
-    .amenity-item {
-      padding: 2rem;
-      border: 1px solid var(--color-border);
-      border-radius: var(--radius-lg);
-      transition: var(--transition);
-      background-color: var(--color-bg);
+    /* Glassmorphism Classes */
+    .glass-panel {
+      background: var(--glass-bg);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid var(--glass-border);
+      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+      transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s cubic-bezier(0.1, 0.8, 0.3, 1);
     }
 
-    .amenity-item:hover {
-      transform: translateY(-10px);
-      box-shadow: var(--shadow-md);
-      border-color: var(--color-primary);
+    .glass-panel:hover {
+      border-color: var(--glass-hover-border);
+      box-shadow: 0 12px 40px 0 rgba(0, 240, 255, 0.12);
     }
 
-    .amenity-icon {
-      font-size: 2.5rem;
-      color: var(--color-primary);
-      margin-bottom: 1rem;
+    .glass-pill {
+      background: rgba(255, 255, 255, 0.04);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
     }
 
-    .gallery {
-      padding: var(--section-padding);
+    /* Glowing Accents */
+    .text-glow-cyan {
+      text-shadow: 0 0 12px rgba(0, 240, 255, 0.5);
     }
-    
-    .gallery-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 1.5rem;
+    .text-glow-violet {
+      text-shadow: 0 0 12px rgba(112, 0, 255, 0.6);
     }
-
-    .gallery-item {
-      height: 300px;
-      border-radius: var(--radius-md);
-      overflow: hidden;
-      box-shadow: var(--shadow-sm);
+    .box-glow-cyan {
+      box-shadow: 0 0 25px rgba(0, 240, 255, 0.25);
     }
 
-    .gallery-item img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      transition: var(--transition);
+    /* Rotating Orbit Widget */
+    @keyframes spinOrbit {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    .animate-spin-orbit {
+      animation: spinOrbit 14s linear infinite;
+    }
+    .animate-spin-orbit:hover {
+      animation-duration: 6s;
     }
 
-    .gallery-item:hover img {
-      transform: scale(1.1);
+    /* Pulsing Status Dot */
+    @keyframes pulseDot {
+      0%, 100% { transform: scale(1); opacity: 1; box-shadow: 0 0 8px #00F0FF; }
+      50% { transform: scale(1.35); opacity: 0.6; box-shadow: 0 0 16px #00F0FF; }
+    }
+    .pulse-online {
+      animation: pulseDot 2s infinite ease-in-out;
     }
 
-    @media (max-width: 768px) {
-      .hero h1 { font-size: 2.5rem; }
+    /* Scrollbar Styling */
+    ::-webkit-scrollbar {
+      width: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #08090C;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 3px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--cyan-neon);
+    }
+
+    /* 3D Tilt Card Container */
+    .tilt-card {
+      transform-style: preserve-3d;
+      perspective: 1000px;
+      will-change: transform;
+    }
+
+    .tilt-inner {
+      transform: translateZ(20px);
+    }
+
+    /* Custom Input Focus */
+    .glass-input {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: white;
+      transition: all 0.3s ease;
+    }
+    .glass-input:focus {
+      outline: none;
+      border-color: var(--cyan-neon);
+      background: rgba(0, 240, 255, 0.05);
+      box-shadow: 0 0 15px rgba(0, 240, 255, 0.15);
+    }
+
+    /* Spinner */
+    .spinner {
+      border: 2px solid rgba(255, 255, 255, 0.1);
+      border-left-color: #00F0FF;
+      border-radius: 50%;
+      width: 1.25rem;
+      height: 1.25rem;
+      animation: spin 0.8s linear infinite;
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
     }
   </style>
 </head>
-<body>
+<body class="bg-spatial-radial relative min-h-screen text-slate-100 antialiased selection:bg-cyan-accent selection:text-black">
 
-  <main>
-    <section class="hero">
-      <div class="hero-content">
-        <h1>Welcome to <span class="text-accent">Mantra</span> Hotel</h1>
-        <p>Experience unmatched comfort, modern luxury, and heartfelt hospitality in the center of Bhiwadi.</p>
-        <div class="hero-btns">
-          <a href="contact.html" class="btn btn-primary"><i class="fas fa-calendar-alt"></i> Book Now</a>
-          <a href="https://wa.me/919876543210" target="_blank" class="btn btn-whatsapp"><i class="fab fa-whatsapp"></i> WhatsApp Chat</a>
+  <!-- Background 3D Canvas (Z-Index: 1) -->
+  <div id="canvas-container" class="fixed inset-0 pointer-events-none z-[1]">
+    <canvas id="bg-canvas" class="w-full h-full block"></canvas>
+  </div>
+
+  <!-- Background Canvas for Skill Node Dynamic Neon Lines (Z-Index: 2) -->
+  <canvas id="skills-canvas" class="fixed inset-0 pointer-events-none z-[2]"></canvas>
+
+  <!-- Floating Spatial Header / Navbar (Z-Index: 30) -->
+  <header class="fixed top-0 left-0 w-full z-30 px-4 sm:px-8 py-4 pointer-events-none">
+    <div class="max-w-7xl mx-auto flex items-center justify-between pointer-events-auto">
+
+      <!-- Left: Dynamic Status Pill -->
+      <div class="glass-pill rounded-full px-4 py-2 flex items-center gap-3 shadow-lg border border-white/10">
+        <span class="w-2.5 h-2.5 rounded-full bg-cyan-accent pulse-online"></span>
+        <div class="flex flex-col">
+          <span class="text-xs font-mono tracking-wider text-slate-200">AVAILABLE FOR PROJECTS</span>
+          <span class="text-[10px] text-cyan-accent font-semibold tracking-widest uppercase">AV // ALEX VANCE</span>
         </div>
-        <div class="review-badge">
-          <div class="stars">
-            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
+      </div>
+
+      <!-- Center: Glassmorphic Nav Pills -->
+      <nav class="hidden md:flex items-center gap-1 glass-pill rounded-full p-1.5 border border-white/10 shadow-2xl">
+        <a href="#home" class="nav-link px-4 py-1.5 rounded-full text-xs font-mono text-slate-300 hover:text-cyan-accent hover:bg-white/5 transition-all">// 01. HOME</a>
+        <a href="#projects" class="nav-link px-4 py-1.5 rounded-full text-xs font-mono text-slate-300 hover:text-cyan-accent hover:bg-white/5 transition-all">// 02. PROJECTS</a>
+        <a href="#skills" class="nav-link px-4 py-1.5 rounded-full text-xs font-mono text-slate-300 hover:text-cyan-accent hover:bg-white/5 transition-all">// 03. SKILLS</a>
+        <a href="#experience" class="nav-link px-4 py-1.5 rounded-full text-xs font-mono text-slate-300 hover:text-cyan-accent hover:bg-white/5 transition-all">// 04. EXPERIENCE</a>
+        <a href="#contact" class="nav-link px-4 py-1.5 rounded-full text-xs font-mono text-slate-300 hover:text-cyan-accent hover:bg-white/5 transition-all">// 05. CONTACT</a>
+      </nav>
+
+      <!-- Right: Quick Action & Live Timezone / Sound Toggle -->
+      <div class="flex items-center gap-3">
+        <div class="hidden lg:flex flex-col text-right font-mono text-[11px] text-slate-400">
+          <span id="live-time" class="text-slate-200 font-medium">00:00:00 UTC</span>
+          <span class="text-[9px] text-cyan-accent/80">LAT 37.7749 • LON -122.4194</span>
+        </div>
+
+        <button id="sound-toggle" class="glass-pill w-10 h-10 rounded-full flex items-center justify-center text-slate-300 hover:text-cyan-accent hover:border-cyan-accent/50 transition-all">
+          <i id="sound-icon" class="fas fa-volume-mute"></i>
+        </button>
+
+        <a href="#contact" class="magnetic-btn glass-pill px-5 py-2.5 rounded-full text-xs font-mono font-semibold text-cyan-accent border border-cyan-accent/30 hover:bg-cyan-accent hover:text-black transition-all duration-300 shadow-[0_0_15px_rgba(0,240,255,0.15)] hover:shadow-[0_0_25px_rgba(0,240,255,0.4)]">
+          Hire Me &rarr;
+        </a>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- Application Layer (Z-Index: 10) -->
+  <div id="app" class="relative z-10 flex flex-col min-h-screen pt-24">
+
+    <!-- SPATIAL HERO SECTION -->
+    <section id="home" class="relative min-h-[90vh] max-w-7xl mx-auto px-4 sm:px-8 flex flex-col justify-center py-12">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+
+        <div class="lg:col-span-7 space-y-6">
+          <!-- Category Pill -->
+          <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full glass-pill border border-cyan-accent/30 text-cyan-accent text-xs font-mono font-medium tracking-wider">
+            <i class="fas fa-bolt text-yellow-400"></i>
+            FULL-STACK ARCHITECT & 3D CREATIVE DEVELOPER
           </div>
-          <span>4.7/5</span>
-          <small>on Google Reviews</small>
+
+          <!-- Dynamic Headline -->
+          <h1 class="text-4xl sm:text-6xl lg:text-7xl font-bold tracking-tight leading-[1.1] text-white">
+            BUILDING <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-accent via-slate-100 to-violet-accent text-glow-cyan">NEXT-GEN</span> DIGITAL EXPERIENCES
+          </h1>
+
+          <!-- Subheadline -->
+          <p class="text-slate-400 text-lg sm:text-xl max-w-2xl font-light leading-relaxed">
+            Engineering ultra-scalable WebGL graphics, spatial 3D interfaces, and resilient full-stack cloud systems. Turning complex technical challenges into flawless 60 FPS visual reality.
+          </p>
+
+          <!-- CTA Group -->
+          <div class="flex flex-wrap items-center gap-6 pt-4">
+            <!-- Primary Glowing CTA -->
+            <a href="#projects" class="magnetic-btn glass-panel px-8 py-4 rounded-2xl text-sm font-mono font-semibold text-black bg-gradient-to-r from-cyan-accent to-blue-400 hover:from-cyan-300 hover:to-cyan-accent flex items-center gap-3 shadow-[0_0_30px_rgba(0,240,255,0.35)] hover:shadow-[0_0_45px_rgba(0,240,255,0.6)] transform hover:-translate-y-1 transition-all duration-300">
+              EXPLORE PROJECTS &rarr;
+            </a>
+
+            <!-- Secondary Rotating Play Button -->
+            <a href="#projects" class="relative group w-16 h-16 rounded-full glass-panel flex items-center justify-center border border-white/20 hover:border-cyan-accent transition-all duration-300">
+              <!-- Orbit SVG Text -->
+              <svg class="absolute inset-0 w-full h-full animate-spin-orbit pointer-events-none" viewBox="0 0 100 100">
+                <path id="textPath" d="M 50, 50 m -37, 0 a 37,37 0 1,1 74,0 a 37,37 0 1,1 -74,0" fill="none"></path>
+                <text font-size="8.5" font-family="Fira Code" fill="#94A3B8" letter-spacing="1">
+                  <textPath href="#textPath" startOffset="0%">
+                    EXPLORE CONCEPT • LIVE INTERACTIVE •
+                  </textPath>
+                </text>
+              </svg>
+              <i class="fas fa-arrow-right text-cyan-accent text-lg transform group-hover:translate-x-0.5 transition-transform"></i>
+            </a>
+          </div>
+
+          <!-- Live Metrics Strip -->
+          <div class="grid grid-cols-3 gap-4 pt-8 max-w-xl">
+            <div class="glass-panel p-4 rounded-2xl border border-white/10 text-center sm:text-left">
+              <span class="text-2xl sm:text-3xl font-bold text-cyan-accent font-mono">40+</span>
+              <p class="text-[11px] font-mono text-slate-400 mt-1 uppercase">Completed Projects</p>
+            </div>
+            <div class="glass-panel p-4 rounded-2xl border border-white/10 text-center sm:text-left">
+              <span class="text-2xl sm:text-3xl font-bold text-violet-accent font-mono">99.9%</span>
+              <p class="text-[11px] font-mono text-slate-400 mt-1 uppercase">Uptime SLA</p>
+            </div>
+            <div class="glass-panel p-4 rounded-2xl border border-white/10 text-center sm:text-left">
+              <span class="text-2xl sm:text-3xl font-bold text-emerald-400 font-mono">100%</span>
+              <p class="text-[11px] font-mono text-slate-400 mt-1 uppercase">Client Rating</p>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- 3D Mascot Spacer for Large Viewports -->
+        <div class="lg:col-span-5 h-64 lg:h-auto pointer-events-none"></div>
+
+      </div>
+    </section>
+
+    <!-- 3D INTERACTIVE PROJECT SHOWCASE -->
+    <section id="projects" class="relative max-w-7xl mx-auto px-4 sm:px-8 py-20">
+      <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
+        <div>
+          <div class="text-cyan-accent font-mono text-xs tracking-widest uppercase mb-2">// 02. FEATURED WORK</div>
+          <h2 class="text-3xl sm:text-5xl font-bold text-white">3D Spatial Engineering</h2>
+        </div>
+
+        <!-- Filter Tabs -->
+        <div id="project-filters" class="flex flex-wrap gap-2 glass-pill p-1.5 rounded-2xl border border-white/10">
+          <button data-filter="all" class="filter-btn active px-4 py-2 rounded-xl text-xs font-mono transition-all bg-cyan-accent text-black font-semibold">ALL</button>
+          <button data-filter="web" class="filter-btn px-4 py-2 rounded-xl text-xs font-mono transition-all text-slate-400 hover:text-white hover:bg-white/5">WEB APPS</button>
+          <button data-filter="3d" class="filter-btn px-4 py-2 rounded-xl text-xs font-mono transition-all text-slate-400 hover:text-white hover:bg-white/5">3D EXPERIENCES</button>
+          <button data-filter="mobile" class="filter-btn px-4 py-2 rounded-xl text-xs font-mono transition-all text-slate-400 hover:text-white hover:bg-white/5">MOBILE</button>
+          <button data-filter="backend" class="filter-btn px-4 py-2 rounded-xl text-xs font-mono transition-all text-slate-400 hover:text-white hover:bg-white/5">BACKEND APIs</button>
+        </div>
+      </div>
+
+      <!-- Project Cards Grid -->
+      <div id="project-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <!-- Project items rendered dynamically via JS -->
+      </div>
+    </section>
+
+    <!-- INTERACTIVE 3D SKILLS MATRIX -->
+    <section id="skills" class="relative max-w-7xl mx-auto px-4 sm:px-8 py-20">
+      <div class="mb-12">
+        <div class="text-cyan-accent font-mono text-xs tracking-widest uppercase mb-2">// 03. TECHNICAL CAPABILITIES</div>
+        <h2 class="text-3xl sm:text-5xl font-bold text-white">Interactive Skills Matrix</h2>
+        <p class="text-slate-400 text-sm max-w-xl mt-2">Hover over any technical node below to render real-time neural connection lines across associated technologies.</p>
+      </div>
+
+      <div id="skills-matrix-container" class="relative grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- Skills Categories -->
+      </div>
+    </section>
+
+    <!-- EXPERIENCE & TIMELINE -->
+    <section id="experience" class="relative max-w-7xl mx-auto px-4 sm:px-8 py-20">
+      <div class="mb-12">
+        <div class="text-cyan-accent font-mono text-xs tracking-widest uppercase mb-2">// 04. CAREER TRACK</div>
+        <h2 class="text-3xl sm:text-5xl font-bold text-white">Experience & Leadership</h2>
+      </div>
+
+      <div class="relative border-l border-white/10 ml-4 md:ml-6 space-y-12">
+        <!-- Item 1 -->
+        <div class="relative pl-8 md:pl-10 group">
+          <div class="absolute -left-[9px] top-1.5 w-4 h-4 rounded-full bg-cyan-accent border-4 border-space-bg group-hover:scale-125 transition-transform"></div>
+          <div class="glass-panel p-6 sm:p-8 rounded-3xl border border-white/10 space-y-3">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+              <h3 class="text-xl font-bold text-white">Principal 3D Creative Technologist</h3>
+              <span class="px-3 py-1 rounded-full text-xs font-mono bg-cyan-accent/10 text-cyan-accent border border-cyan-accent/30">2022 — PRESENT</span>
+            </div>
+            <p class="text-xs font-mono text-cyan-accent">META-SPATIAL LABS • SAN FRANCISCO, CA</p>
+            <p class="text-slate-300 text-sm leading-relaxed font-light">
+              Spearheading next-generation WebGL graphics architectures, spatial UI design systems, and WebGPU optimization pipelines. Reduced GPU memory overhead by 40% across flagship web products.
+            </p>
+          </div>
+        </div>
+
+        <!-- Item 2 -->
+        <div class="relative pl-8 md:pl-10 group">
+          <div class="absolute -left-[9px] top-1.5 w-4 h-4 rounded-full bg-violet-accent border-4 border-space-bg group-hover:scale-125 transition-transform"></div>
+          <div class="glass-panel p-6 sm:p-8 rounded-3xl border border-white/10 space-y-3">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+              <h3 class="text-xl font-bold text-white">Senior Full-Stack Architect</h3>
+              <span class="px-3 py-1 rounded-full text-xs font-mono bg-violet-accent/10 text-violet-accent border border-violet-accent/30">2019 — 2022</span>
+            </div>
+            <p class="text-xs font-mono text-violet-accent">NEXUS CLOUD SYSTEMS • REMOTE</p>
+            <p class="text-slate-300 text-sm leading-relaxed font-light">
+              Architected microservice API gateways processing over 10M daily requests with sub-10ms response times. Led team of 12 full-stack engineers in building distributed cloud analytics dashboards.
+            </p>
+          </div>
+        </div>
+
+        <!-- Item 3 -->
+        <div class="relative pl-8 md:pl-10 group">
+          <div class="absolute -left-[9px] top-1.5 w-4 h-4 rounded-full bg-emerald-400 border-4 border-space-bg group-hover:scale-125 transition-transform"></div>
+          <div class="glass-panel p-6 sm:p-8 rounded-3xl border border-white/10 space-y-3">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+              <h3 class="text-xl font-bold text-white">WebGL & Interactive Developer</h3>
+              <span class="px-3 py-1 rounded-full text-xs font-mono bg-emerald-400/10 text-emerald-400 border border-emerald-400/30">2017 — 2019</span>
+            </div>
+            <p class="text-xs font-mono text-emerald-400">SYNAPSE INTERACTIVE • NEW YORK, NY</p>
+            <p class="text-slate-300 text-sm leading-relaxed font-light">
+              Designed immersive 3D marketing campaigns for global brands using Three.js, GSAP, and custom GLSL vertex shaders. Won 5 Awwwards Site of the Day accolades.
+            </p>
+          </div>
         </div>
       </div>
     </section>
 
-    <section class="amenities">
-      <div class="container">
-        <h2 class="section-title">Premium Amenities</h2>
-        <div class="amenities-grid">
-          <div class="amenity-item">
-            <i class="fas fa-parking amenity-icon"></i>
-            <h3>Free Parking</h3>
-            <p class="text-light">Secure, on-site parking available 24/7.</p>
-          </div>
-          <div class="amenity-item">
-            <i class="fas fa-coffee amenity-icon"></i>
-            <h3>Complimentary Breakfast</h3>
-            <p class="text-light">Start your day with a delicious, homely meal.</p>
-          </div>
-          <div class="amenity-item">
-            <i class="fas fa-wifi amenity-icon"></i>
-            <h3>High-Speed Wi-Fi</h3>
-            <p class="text-light">Stay connected with our fast and free internet.</p>
-          </div>
-          <div class="amenity-item">
-            <i class="fas fa-snowflake amenity-icon"></i>
-            <h3>AC Rooms</h3>
-            <p class="text-light">Climate-controlled comfort in every room.</p>
+    <!-- INTERACTIVE CONTACT TERMINAL -->
+    <section id="contact" class="relative max-w-7xl mx-auto px-4 sm:px-8 py-20 mb-12">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+
+        <div class="lg:col-span-5 space-y-6">
+          <div class="text-cyan-accent font-mono text-xs tracking-widest uppercase mb-2">// 05. INITIATE PROTOCOL</div>
+          <h2 class="text-3xl sm:text-5xl font-bold text-white">Let's Build Something Extraordinary</h2>
+          <p class="text-slate-400 text-base leading-relaxed font-light">
+            Available for select high-ticket freelance commissions, architectural consulting, and principal creative engineering roles.
+          </p>
+
+          <div class="space-y-4 pt-4">
+            <div class="glass-panel p-4 rounded-2xl flex items-center gap-4 border border-white/10">
+              <div class="w-10 h-10 rounded-xl bg-cyan-accent/10 border border-cyan-accent/30 flex items-center justify-center text-cyan-accent">
+                <i class="fas fa-envelope"></i>
+              </div>
+              <div>
+                <span class="text-[10px] font-mono text-slate-400 uppercase">DIRECT EMAIL</span>
+                <p class="text-sm font-mono text-white">alex.vance@spatial-core.dev</p>
+              </div>
+            </div>
+
+            <div class="glass-panel p-4 rounded-2xl flex items-center gap-4 border border-white/10">
+              <div class="w-10 h-10 rounded-xl bg-violet-accent/10 border border-violet-accent/30 flex items-center justify-center text-cyan-accent">
+                <i class="fas fa-location-dot"></i>
+              </div>
+              <div>
+                <span class="text-[10px] font-mono text-slate-400 uppercase">LOCATION & TIMEZONE</span>
+                <p class="text-sm font-mono text-white">San Francisco, CA (PST / UTC-7)</p>
+              </div>
+            </div>
           </div>
         </div>
+
+        <!-- Contact Form Card -->
+        <div class="lg:col-span-7">
+          <div class="glass-panel rounded-3xl p-6 sm:p-10 border border-white/15 relative shadow-2xl">
+
+            <form id="contact-form" class="space-y-6">
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                <!-- Name -->
+                <div class="space-y-2">
+                  <label for="form-name" class="block text-xs font-mono text-slate-300">FULL NAME *</label>
+                  <input type="text" id="form-name" required placeholder="Satoshi Nakamoto" class="glass-input w-full px-4 py-3 rounded-xl text-sm">
+                  <span id="err-name" class="text-[11px] font-mono text-crimson-accent hidden">Name is required</span>
+                </div>
+
+                <!-- Email -->
+                <div class="space-y-2">
+                  <label for="form-email" class="block text-xs font-mono text-slate-300">EMAIL ADDRESS *</label>
+                  <input type="email" id="form-email" required placeholder="satoshi@network.org" class="glass-input w-full px-4 py-3 rounded-xl text-sm">
+                  <span id="err-email" class="text-[11px] font-mono text-crimson-accent hidden">Valid email is required</span>
+                </div>
+              </div>
+
+              <!-- Project Type Selector -->
+              <div class="space-y-2">
+                <label for="form-type" class="block text-xs font-mono text-slate-300">PROJECT CATEGORY</label>
+                <select id="form-type" class="glass-input w-full px-4 py-3 rounded-xl text-sm bg-slate-900/90 text-white">
+                  <option value="3D WebGL Experience">3D WebGL / Spatial UI Experience</option>
+                  <option value="Full Architecture Project">Full-Stack Enterprise Architecture</option>
+                  <option value="Mobile AR Application">Mobile AR Application</option>
+                  <option value="Technical Consulting">Technical Consulting & Advisory</option>
+                </select>
+              </div>
+
+              <!-- Budget Range Slider -->
+              <div class="space-y-3">
+                <div class="flex justify-between items-center">
+                  <label for="form-budget" class="text-xs font-mono text-slate-300">PROJECT BUDGET RANGE</label>
+                  <span id="budget-val" class="text-xs font-mono font-bold text-cyan-accent">$15,000 - $30,000</span>
+                </div>
+                <input type="range" id="form-budget" min="5000" max="100000" step="5000" value="25000" class="w-full accent-cyan-accent bg-white/10 rounded-lg cursor-pointer">
+              </div>
+
+              <!-- Message -->
+              <div class="space-y-2">
+                <label for="form-msg" class="block text-xs font-mono text-slate-300">MESSAGE DETAILS *</label>
+                <textarea id="form-msg" rows="4" required placeholder="Tell me about your project goals, scope, and timeline..." class="glass-input w-full px-4 py-3 rounded-xl text-sm resize-none"></textarea>
+                <span id="err-msg" class="text-[11px] font-mono text-crimson-accent hidden">Message must be at least 10 characters</span>
+              </div>
+
+              <!-- Submit Button with State Machine Handler -->
+              <button type="submit" id="form-submit-btn" class="w-full py-4 rounded-2xl bg-gradient-to-r from-cyan-accent to-blue-500 hover:from-cyan-300 hover:to-cyan-accent text-black font-mono font-bold text-sm flex items-center justify-center gap-3 shadow-[0_0_25px_rgba(0,240,255,0.3)] hover:shadow-[0_0_35px_rgba(0,240,255,0.5)] transition-all duration-300">
+                <span id="btn-text">TRANSMIT DISPATCH &rarr;</span>
+                <span id="btn-spinner" class="spinner hidden"></span>
+              </button>
+            </form>
+
+            <!-- Floating Success Toast Overlay -->
+            <div id="success-toast" class="absolute inset-0 bg-space-bg/95 backdrop-blur-2xl rounded-3xl p-8 flex flex-col items-center justify-center text-center space-y-4 opacity-0 pointer-events-none transition-all duration-300 border border-cyan-accent/40">
+              <div class="w-16 h-16 rounded-full bg-cyan-accent/20 border border-cyan-accent flex items-center justify-center text-cyan-accent text-2xl shadow-[0_0_30px_rgba(0,240,255,0.5)]">
+                <i class="fas fa-check"></i>
+              </div>
+              <h3 class="text-2xl font-bold text-white">Transmission Confirmed</h3>
+              <p class="text-slate-300 text-sm max-w-md font-light">
+                Your request has been logged into local persistence and encrypted dispatch queues. Alex will reach out within 24 hours.
+              </p>
+              <button id="reset-form-btn" class="px-6 py-2.5 rounded-xl bg-white/10 text-cyan-accent text-xs font-mono hover:bg-white/20 transition-all border border-cyan-accent/30">
+                Send Another Message
+              </button>
+            </div>
+
+          </div>
+        </div>
+
       </div>
     </section>
 
-    <section class="gallery">
-      <div class="container">
-        <h2 class="section-title">Our Visual Masterpiece</h2>
-        <div class="gallery-grid">
-          <div class="gallery-item">
-            <img src="https://images.unsplash.com/photo-1564501049412-61c2a3083791?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Beautiful Glass Facade Exterior">
+    <!-- FOOTER -->
+    <footer class="border-t border-white/10 py-8 px-4 sm:px-8 text-center text-slate-500 text-xs font-mono">
+      <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+        <p>&copy; 2025 ALEX VANCE • SPATIAL 3D PORTFOLIO SYSTEM</p>
+        <div class="flex items-center gap-6">
+          <a href="https://github.com" target="_blank" class="hover:text-cyan-accent transition-colors">GITHUB</a>
+          <a href="https://linkedin.com" target="_blank" class="hover:text-cyan-accent transition-colors">LINKEDIN</a>
+          <a href="https://twitter.com" target="_blank" class="hover:text-cyan-accent transition-colors">TWITTER</a>
+        </div>
+      </div>
+    </footer>
+
+  </div>
+
+  <!-- Live Project Inspector Modal (Z-Index: 50) -->
+  <div id="project-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-xl opacity-0 pointer-events-none transition-opacity duration-300">
+    <div id="modal-card" class="glass-panel w-full max-w-4xl max-h-[90vh] rounded-3xl overflow-y-auto border border-white/20 p-6 sm:p-8 flex flex-col gap-6 transform scale-95 transition-transform duration-300">
+      <div class="flex items-center justify-between border-b border-white/10 pb-4">
+        <div class="flex items-center gap-3">
+          <span id="modal-category" class="px-3 py-1 rounded-full text-[10px] font-mono bg-cyan-accent/10 text-cyan-accent border border-cyan-accent/30 uppercase">Category</span>
+          <h3 id="modal-title" class="text-2xl font-bold text-white">Project Title</h3>
+        </div>
+        <button id="close-modal" class="w-10 h-10 rounded-full glass-pill flex items-center justify-center text-slate-400 hover:text-white hover:bg-white/10 transition-all">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+
+      <!-- Modal Body -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- Interactive Preview Mockup Container -->
+        <div class="glass-panel rounded-2xl overflow-hidden border border-white/10 h-64 md:h-full relative flex flex-col">
+          <div class="bg-black/60 px-4 py-2 border-b border-white/10 flex items-center justify-between text-xs font-mono text-slate-400">
+            <span class="flex items-center gap-1.5">
+              <span class="w-2.5 h-2.5 rounded-full bg-red-500/80"></span>
+              <span class="w-2.5 h-2.5 rounded-full bg-yellow-500/80"></span>
+              <span class="w-2.5 h-2.5 rounded-full bg-green-500/80"></span>
+            </span>
+            <span id="modal-url">https://preview.internal.node</span>
           </div>
-          <div class="gallery-item">
-            <img src="https://images.unsplash.com/photo-1590490360182-c33d57733427?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Modern Room interior">
+          <div class="flex-1 bg-slate-950/80 flex items-center justify-center p-4 text-center">
+            <div id="modal-preview-placeholder" class="space-y-3">
+              <i class="fas fa-cubes text-4xl text-cyan-accent/60"></i>
+              <p class="text-xs font-mono text-slate-400">Interactive WebGL Runtime Simulator Active</p>
+            </div>
           </div>
-          <div class="gallery-item">
-            <img src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Luxury Beddings">
+        </div>
+
+        <!-- Details & Architecture Breakdown -->
+        <div class="space-y-4">
+          <h4 class="text-sm font-mono text-cyan-accent uppercase tracking-wider">// ARCHITECTURE & BREAKDOWN</h4>
+          <p id="modal-desc" class="text-slate-300 text-sm leading-relaxed">Detailed project description goes here.</p>
+
+          <div class="space-y-2">
+            <span class="text-xs font-mono text-slate-400">TECH STACK INTEGRATION</span>
+            <div id="modal-tech" class="flex flex-wrap gap-2"></div>
           </div>
-          <div class="gallery-item">
-            <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Dining Area">
+
+          <div class="space-y-2 pt-2">
+            <span class="text-xs font-mono text-slate-400">PERFORMANCE HIGHLIGHTS</span>
+            <ul id="modal-highlights" class="text-xs text-slate-300 space-y-1 font-mono">
+              <li><i class="fas fa-check text-cyan-accent mr-2"></i> 60 FPS WebGL Shaders</li>
+              <li><i class="fas fa-check text-cyan-accent mr-2"></i> Sub-100ms API Latency</li>
+            </ul>
+          </div>
+
+          <!-- Actions -->
+          <div class="flex items-center gap-4 pt-4 border-t border-white/10">
+            <a id="modal-live-link" href="#" target="_blank" class="flex-1 py-3 rounded-xl bg-cyan-accent text-black font-mono font-semibold text-xs text-center hover:bg-cyan-300 transition-all shadow-[0_0_20px_rgba(0,240,255,0.3)]">
+              Launch Live Demo &nearr;
+            </a>
+            <a id="modal-code-link" href="#" target="_blank" class="flex-1 py-3 rounded-xl glass-panel text-slate-200 font-mono text-xs text-center border border-white/20 hover:border-cyan-accent/50 hover:text-cyan-accent transition-all">
+              Source Code &nearr;
+            </a>
           </div>
         </div>
       </div>
-    </section>
-  </main>
+    </div>
+  </div>
 
-  <script src="js/components.js"></script>
+  <!-- JavaScript WebGL & Interactive App Code -->
+  <script>
+    // --- Global State & Utilities ---
+    const mouse = { x: 0, y: 0, targetX: 0, targetY: 0, rawX: 0, rawY: 0 };
+    let isTabActive = true;
+    let soundEnabled = false;
+
+    // Web Audio Synthesizer for UI SFX
+    const AudioEngine = {
+      ctx: null,
+      init() {
+        if (!this.ctx) {
+          const AudioContext = window.AudioContext || window.webkitAudioContext;
+          if (AudioContext) this.ctx = new AudioContext();
+        }
+        if (this.ctx && this.ctx.state === 'suspended') {
+          this.ctx.resume();
+        }
+      },
+      playClick() {
+        if (!soundEnabled) return;
+        this.init();
+        if (!this.ctx) return;
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(800, this.ctx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(300, this.ctx.currentTime + 0.05);
+        gain.gain.setValueAtTime(0.1, this.ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.05);
+        osc.connect(gain);
+        gain.connect(this.ctx.destination);
+        osc.start();
+        osc.stop(this.ctx.currentTime + 0.05);
+      },
+      playHover() {
+        if (!soundEnabled) return;
+        this.init();
+        if (!this.ctx) return;
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(440, this.ctx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(880, this.ctx.currentTime + 0.03);
+        gain.gain.setValueAtTime(0.03, this.ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.03);
+        osc.connect(gain);
+        gain.connect(this.ctx.destination);
+        osc.start();
+        osc.stop(this.ctx.currentTime + 0.03);
+      },
+      playSuccess() {
+        if (!soundEnabled) return;
+        this.init();
+        if (!this.ctx) return;
+        const notes = [523.25, 659.25, 783.99, 1046.50];
+        notes.forEach((freq, idx) => {
+          const osc = this.ctx.createOscillator();
+          const gain = this.ctx.createGain();
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(freq, this.ctx.currentTime + idx * 0.08);
+          gain.gain.setValueAtTime(0.08, this.ctx.currentTime + idx * 0.08);
+          gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + idx * 0.08 + 0.2);
+          osc.connect(gain);
+          gain.connect(this.ctx.destination);
+          osc.start(this.ctx.currentTime + idx * 0.08);
+          osc.stop(this.ctx.currentTime + idx * 0.08 + 0.2);
+        });
+      }
+    };
+
+    // Passive Mouse Movement Throttling
+    window.addEventListener('mousemove', (e) => {
+      mouse.rawX = e.clientX;
+      mouse.rawY = e.clientY;
+      mouse.targetX = (e.clientX / window.innerWidth) * 2 - 1;
+      mouse.targetY = -(e.clientY / window.innerHeight) * 2 + 1;
+    }, { passive: true });
+
+    // Handle Tab Visibility Optimization
+    document.addEventListener('visibilitychange', () => {
+      isTabActive = !document.hidden;
+    });
+
+    // Update Live UTC Clock
+    function updateClock() {
+      const now = new Date();
+      const clockEl = document.getElementById('live-time');
+      if (clockEl) {
+        clockEl.textContent = now.toISOString().substring(11, 19) + ' UTC';
+      }
+    }
+    setInterval(updateClock, 1000);
+    updateClock();
+
+    // Sound Toggle Handler
+    document.getElementById('sound-toggle').addEventListener('click', () => {
+      soundEnabled = !soundEnabled;
+      const icon = document.getElementById('sound-icon');
+      if (soundEnabled) {
+        icon.className = 'fas fa-volume-up text-cyan-accent';
+        AudioEngine.playSuccess();
+      } else {
+        icon.className = 'fas fa-volume-mute';
+      }
+    });
+
+    // --- PROJECTS DATA & RENDERER ---
+    const PROJECTS = [
+      {
+        id: 'cyber-sphere',
+        title: 'AETHER 3D Spatial OS',
+        category: '3d',
+        desc: 'Browser-based 3D operating environment featuring real-time WebGL shader nodes, custom audio spectrum visualization, and spatial multi-window management.',
+        tech: ['Three.js', 'WebGL Shaders', 'GSAP', 'Web Audio API'],
+        highlights: ['Constant 60 FPS rendering', 'Custom fragment shader material', 'Zero layout thrashing'],
+        live: 'https://github.com',
+        code: 'https://github.com'
+      },
+      {
+        id: 'nexus-cloud',
+        title: 'NEXUS Distributed Cloud',
+        category: 'web',
+        desc: 'Enterprise cloud infrastructure analytics console with live WebSocket metrics telemetry, anomaly detection graphs, and multi-region deployment triggers.',
+        tech: ['React', 'TypeScript', 'Tailwind CSS', 'Node.js', 'WebSockets'],
+        highlights: ['99.99% operational uptime', 'Real-time telemetry streaming', 'End-to-end type safety'],
+        live: 'https://github.com',
+        code: 'https://github.com'
+      },
+      {
+        id: 'quantum-api',
+        title: 'QUANTUM Micro-API Gateway',
+        category: 'backend',
+        desc: 'High-throughput Rust microservice framework providing sub-millisecond route optimization, rate limiting, and automated OAuth2 token rotation.',
+        tech: ['Rust', 'Docker', 'Redis', 'GraphQL', 'gRPC'],
+        highlights: ['Sub-1ms request routing', 'Memory safe architecture', 'Auto-scaling pod topology'],
+        live: 'https://github.com',
+        code: 'https://github.com'
+      },
+      {
+        id: 'hyper-mobile',
+        title: 'HYPER AR Companion',
+        category: 'mobile',
+        desc: 'Cross-platform mobile augmented reality application for spatial interior design, 3D room scanning, and surface plane tracking.',
+        tech: ['React Native', 'ARKit', 'Three.js', 'WebGPU'],
+        highlights: ['Real-time plane detection', '60 FPS mobile rendering', 'Offline-first sync'],
+        live: 'https://github.com',
+        code: 'https://github.com'
+      },
+      {
+        id: 'synapse-ai',
+        title: 'SYNAPSE Neural Studio',
+        category: 'web',
+        desc: 'Interactive generative AI canvas workflow tool allowing real-time node linking, prompt engineering pipelines, and visual vector embeddings.',
+        tech: ['Vue.js', 'Tailwind', 'Python', 'FastAPI', 'PyTorch'],
+        highlights: ['Vector embedding canvas', 'Streamed SSE responses', 'Glassmorphic spatial UI'],
+        live: 'https://github.com',
+        code: 'https://github.com'
+      },
+      {
+        id: 'holo-meta',
+        title: 'HOLO Metaverse Showcase',
+        category: '3d',
+        desc: 'Virtual 3D digital art gallery with realistic PBR glass reflections, spatial audio positioning, and avatar peer-to-peer networking.',
+        tech: ['Three.js', 'GLSL Shaders', 'WebRTC', 'GLTF Loader'],
+        highlights: ['HDR environment lighting', 'P2P voice channel spatialization', 'Procedural texture generation'],
+        live: 'https://github.com',
+        code: 'https://github.com'
+      }
+    ];
+
+    function renderProjects(filter = 'all') {
+      const grid = document.getElementById('project-grid');
+      grid.innerHTML = '';
+
+      const filtered = filter === 'all' ? PROJECTS : PROJECTS.filter(p => p.category === filter);
+
+      filtered.forEach((p, idx) => {
+        const card = document.createElement('div');
+        card.className = `project-card tilt-card glass-panel rounded-3xl p-6 border border-white/10 flex flex-col justify-between hover:border-cyan-accent/40 cursor-pointer group transition-all duration-300`;
+        card.setAttribute('data-id', p.id);
+
+        card.innerHTML = `
+          <div class="space-y-4 tilt-inner">
+            <div class="h-44 rounded-2xl bg-gradient-to-br from-slate-900 to-space-glow border border-white/10 relative overflow-hidden flex items-center justify-center group-hover:border-cyan-accent/30 transition-all">
+              <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-cyan-500/10 via-transparent to-transparent"></div>
+              <i class="fas ${p.category === '3d' ? 'fa-cube' : p.category === 'backend' ? 'fa-server' : p.category === 'mobile' ? 'fa-mobile-alt' : 'fa-laptop-code'} text-4xl text-cyan-accent/70 group-hover:scale-110 group-hover:text-cyan-accent transition-all duration-300"></i>
+              <span class="absolute top-3 right-3 px-2.5 py-1 rounded-full text-[9px] font-mono bg-black/60 text-cyan-accent border border-cyan-accent/30 uppercase tracking-wider">${p.category}</span>
+            </div>
+
+            <h3 class="text-xl font-bold text-white group-hover:text-cyan-accent transition-colors">${p.title}</h3>
+            <p class="text-slate-400 text-xs line-clamp-2 leading-relaxed font-light">${p.desc}</p>
+          </div>
+
+          <div class="pt-6 space-y-4 tilt-inner">
+            <div class="flex flex-wrap gap-1.5">
+              ${p.tech.map(t => `<span class="px-2 py-0.5 rounded-md text-[10px] font-mono bg-white/5 text-slate-300 border border-white/5">${t}</span>`).join('')}
+            </div>
+
+            <div class="flex items-center justify-between border-t border-white/10 pt-4 text-xs font-mono">
+              <span class="text-cyan-accent group-hover:translate-x-1 transition-transform inline-flex items-center gap-1">
+                Inspect Specs &rarr;
+              </span>
+              <span class="text-slate-500 text-[10px]">60 FPS SHADER</span>
+            </div>
+          </div>
+        `;
+
+        card.addEventListener('mousemove', (e) => {
+          const rect = card.getBoundingClientRect();
+          const x = e.clientX - rect.left;
+          const y = e.clientY - rect.top;
+          const centerX = rect.width / 2;
+          const centerY = rect.height / 2;
+          const rotateX = ((y - centerY) / centerY) * -10;
+          const rotateY = ((x - centerX) / centerX) * 10;
+          card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
+        });
+
+        card.addEventListener('mouseleave', () => {
+          card.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)`;
+        });
+
+        card.addEventListener('click', () => openModal(p));
+        grid.appendChild(card);
+      });
+    }
+
+    function openModal(project) {
+      AudioEngine.playClick();
+      document.getElementById('modal-title').textContent = project.title;
+      document.getElementById('modal-category').textContent = project.category;
+      document.getElementById('modal-desc').textContent = project.desc;
+      document.getElementById('modal-url').textContent = `https://${project.id}.vance.dev`;
+
+      const techContainer = document.getElementById('modal-tech');
+      techContainer.innerHTML = project.tech.map(t => `<span class="px-2.5 py-1 rounded-lg text-xs font-mono bg-cyan-accent/10 text-cyan-accent border border-cyan-accent/30">${t}</span>`).join('');
+
+      const highlightsContainer = document.getElementById('modal-highlights');
+      highlightsContainer.innerHTML = project.highlights.map(h => `<li><i class="fas fa-check text-cyan-accent mr-2"></i> ${h}</li>`).join('');
+
+      document.getElementById('modal-live-link').href = project.live;
+      document.getElementById('modal-code-link').href = project.code;
+
+      const modal = document.getElementById('project-modal');
+      const card = document.getElementById('modal-card');
+      modal.classList.remove('opacity-0', 'pointer-events-none');
+      card.classList.remove('scale-95');
+      card.classList.add('scale-100');
+    }
+
+    function closeModal() {
+      AudioEngine.playClick();
+      const modal = document.getElementById('project-modal');
+      const card = document.getElementById('modal-card');
+      modal.classList.add('opacity-0', 'pointer-events-none');
+      card.classList.remove('scale-100');
+      card.classList.add('scale-95');
+    }
+
+    document.getElementById('close-modal').addEventListener('click', closeModal);
+    document.getElementById('project-modal').addEventListener('click', (e) => {
+      if (e.target.id === 'project-modal') closeModal();
+    });
+
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        AudioEngine.playClick();
+        document.querySelectorAll('.filter-btn').forEach(b => {
+          b.className = 'filter-btn px-4 py-2 rounded-xl text-xs font-mono transition-all text-slate-400 hover:text-white hover:bg-white/5';
+        });
+        e.target.className = 'filter-btn active px-4 py-2 rounded-xl text-xs font-mono transition-all bg-cyan-accent text-black font-semibold';
+        renderProjects(e.target.getAttribute('data-filter'));
+      });
+    });
+
+    // --- INTERACTIVE SKILLS MATRIX & NEON CANVAS LINES ---
+    const SKILLS_DATA = [
+      {
+        category: '3D WebGL Engine',
+        icon: 'fa-cube',
+        color: '#00F0FF',
+        nodes: ['Three.js', 'GLSL Shaders', 'WebGPU', 'Post-Processing', 'GLTF/OBJ Pipeline']
+      },
+      {
+        category: 'Frontend Architecture',
+        icon: 'fa-code',
+        color: '#7000FF',
+        nodes: ['React / Next.js', 'TypeScript', 'Tailwind CSS', 'GSAP Animation', 'State Machines']
+      },
+      {
+        category: 'Backend & Cloud',
+        icon: 'fa-server',
+        color: '#FF2A54',
+        nodes: ['Node.js / Express', 'Rust Microservices', 'GraphQL & REST', 'Docker & K8s', 'Redis Caching']
+      },
+      {
+        category: 'Databases & Infrastructure',
+        icon: 'fa-database',
+        color: '#10B981',
+        nodes: ['PostgreSQL', 'MongoDB', 'Supabase', 'AWS Lambda', 'Cloudflare Workers']
+      },
+      {
+        category: 'DevOps & Performance',
+        icon: 'fa-gauge-high',
+        color: '#F59E0B',
+        nodes: ['CI/CD Pipelines', 'Lighthouse 100 Audit', 'Webpack / Vite', 'WebSockets Streaming', 'Security Auth']
+      }
+    ];
+
+    let activeSkillNode = null;
+
+    function renderSkillsMatrix() {
+      const container = document.getElementById('skills-matrix-container');
+      container.innerHTML = '';
+
+      SKILLS_DATA.forEach((cat, idx) => {
+        const catCard = document.createElement('div');
+        catCard.className = 'glass-panel p-6 rounded-3xl border border-white/10 space-y-4';
+
+        catCard.innerHTML = `
+          <div class="flex items-center gap-3 border-b border-white/10 pb-3">
+            <div class="w-8 h-8 rounded-xl flex items-center justify-center text-sm" style="background: ${cat.color}20; color: ${cat.color}; border: 1px solid ${cat.color}40">
+              <i class="fas ${cat.icon}"></i>
+            </div>
+            <h3 class="text-base font-bold text-white">${cat.category}</h3>
+          </div>
+          <div class="flex flex-wrap gap-2">
+            ${cat.nodes.map(n => `
+              <span data-skill="${n}" data-color="${cat.color}" class="skill-node px-3 py-1.5 rounded-xl text-xs font-mono bg-white/5 border border-white/10 text-slate-300 hover:border-cyan-accent hover:text-cyan-accent cursor-pointer transition-all duration-200">
+                ${n}
+              </span>
+            `).join('')}
+          </div>
+        `;
+
+        container.appendChild(catCard);
+      });
+
+      // Attach Node Hover Event Listeners
+      document.querySelectorAll('.skill-node').forEach(node => {
+        node.addEventListener('mouseenter', (e) => {
+          AudioEngine.playHover();
+          activeSkillNode = e.target;
+        });
+
+        node.addEventListener('mouseleave', () => {
+          activeSkillNode = null;
+        });
+      });
+    }
+
+    // Dynamic 2D Canvas Neon Connecting Lines
+    function initSkillsCanvas() {
+      const canvas = document.getElementById('skills-canvas');
+      const ctx = canvas.getContext('2d');
+
+      function resize() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+      }
+      window.addEventListener('resize', resize);
+      resize();
+
+      function drawLines() {
+        requestAnimationFrame(drawLines);
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        if (!activeSkillNode) return;
+
+        const activeRect = activeSkillNode.getBoundingClientRect();
+        const activeX = activeRect.left + activeRect.width / 2;
+        const activeY = activeRect.top + activeRect.height / 2;
+        const color = activeSkillNode.getAttribute('data-color') || '#00F0FF';
+
+        // Connect active node to all other nodes in the same or adjacent categories
+        const allNodes = Array.from(document.querySelectorAll('.skill-node'));
+        allNodes.forEach(node => {
+          if (node === activeSkillNode) return;
+          const rect = node.getBoundingClientRect();
+          const x = rect.left + rect.width / 2;
+          const y = rect.top + rect.height / 2;
+
+          const dist = Math.hypot(x - activeX, y - activeY);
+          if (dist < 500) {
+            const opacity = 1 - dist / 500;
+            ctx.beginPath();
+            ctx.moveTo(activeX, activeY);
+            ctx.lineTo(x, y);
+            ctx.strokeStyle = color;
+            ctx.globalAlpha = opacity * 0.6;
+            ctx.lineWidth = 1.5;
+            ctx.stroke();
+
+            // Pulse glowing energy dot along the line
+            const time = performance.now() * 0.003;
+            const travel = (time % 1);
+            const dotX = activeX + (x - activeX) * travel;
+            const dotY = activeY + (y - activeY) * travel;
+            ctx.beginPath();
+            ctx.arc(dotX, dotY, 3, 0, Math.PI * 2);
+            ctx.fillStyle = '#FFFFFF';
+            ctx.fill();
+          }
+        });
+        ctx.globalAlpha = 1.0;
+      }
+
+      drawLines();
+    }
+
+    // --- CONTACT FORM STATE MACHINE & PERSISTENCE ---
+    function initContactForm() {
+      const budgetSlider = document.getElementById('form-budget');
+      const budgetVal = document.getElementById('budget-val');
+      const form = document.getElementById('contact-form');
+      const submitBtn = document.getElementById('form-submit-btn');
+      const btnText = document.getElementById('btn-text');
+      const btnSpinner = document.getElementById('btn-spinner');
+      const toast = document.getElementById('success-toast');
+      const resetBtn = document.getElementById('reset-form-btn');
+
+      // Update Budget Value Display
+      budgetSlider.addEventListener('input', (e) => {
+        const val = parseInt(e.target.value);
+        budgetVal.textContent = `$${val.toLocaleString()} - $${(val + 15000).toLocaleString()}`;
+      });
+
+      // Restore Cached Form Inputs from LocalStorage if Available
+      const cachedData = localStorage.getItem('vance_portfolio_contact');
+      if (cachedData) {
+        try {
+          const parsed = JSON.parse(cachedData);
+          if (parsed.name) document.getElementById('form-name').value = parsed.name;
+          if (parsed.email) document.getElementById('form-email').value = parsed.email;
+        } catch (err) {}
+      }
+
+      // State Machine Handlers
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
+
+        // 1. VALIDATION STATE
+        const nameInput = document.getElementById('form-name');
+        const emailInput = document.getElementById('form-email');
+        const msgInput = document.getElementById('form-msg');
+
+        const errName = document.getElementById('err-name');
+        const errEmail = document.getElementById('err-email');
+        const errMsg = document.getElementById('err-msg');
+
+        let isValid = true;
+
+        if (!nameInput.value.trim()) {
+          errName.classList.remove('hidden');
+          isValid = false;
+        } else {
+          errName.classList.add('hidden');
+        }
+
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(emailInput.value.trim())) {
+          errEmail.classList.remove('hidden');
+          isValid = false;
+        } else {
+          errEmail.classList.add('hidden');
+        }
+
+        if (msgInput.value.trim().length < 10) {
+          errMsg.classList.remove('hidden');
+          isValid = false;
+        } else {
+          errMsg.classList.add('hidden');
+        }
+
+        if (!isValid) return;
+
+        // 2. SENDING STATE (Simulated Loading Delay)
+        AudioEngine.playClick();
+        btnText.textContent = 'ENCRYPTING DISPATCH...';
+        btnSpinner.classList.remove('hidden');
+        submitBtn.disabled = true;
+
+        // Persist to LocalStorage
+        const submissionPayload = {
+          name: nameInput.value.trim(),
+          email: emailInput.value.trim(),
+          category: document.getElementById('form-type').value,
+          budget: budgetVal.textContent,
+          message: msgInput.value.trim(),
+          timestamp: new Date().toISOString()
+        };
+        localStorage.setItem('vance_portfolio_contact', JSON.stringify(submissionPayload));
+
+        setTimeout(() => {
+          // 3. SUCCESS STATE
+          btnSpinner.classList.add('hidden');
+          btnText.textContent = 'TRANSMIT DISPATCH &rarr;';
+          submitBtn.disabled = false;
+
+          AudioEngine.playSuccess();
+
+          // Confetti Particle Explosion
+          if (window.confetti) {
+            confetti({
+              particleCount: 90,
+              spread: 70,
+              origin: { y: 0.6 },
+              colors: ['#00F0FF', '#7000FF', '#FFFFFF']
+            });
+          }
+
+          // Show Success Toast Card
+          toast.classList.remove('opacity-0', 'pointer-events-none');
+          toast.classList.add('opacity-100');
+        }, 1200);
+      });
+
+      resetBtn.addEventListener('click', () => {
+        AudioEngine.playClick();
+        form.reset();
+        toast.classList.add('opacity-0', 'pointer-events-none');
+        toast.classList.remove('opacity-100');
+      });
+    }
+
+    // --- THREE.JS 3D SCENE & PARTICLE ENGINE ---
+    class SceneEngine {
+      constructor() {
+        this.canvas = document.getElementById('bg-canvas');
+        this.scene = new THREE.Scene();
+
+        this.camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
+        this.camera.position.set(0, 0, 18);
+
+        this.renderer = new THREE.WebGLRenderer({
+          canvas: this.canvas,
+          alpha: true,
+          antialias: true,
+          powerPreference: "high-performance"
+        });
+
+        const dpr = Math.min(window.devicePixelRatio, 2);
+        this.renderer.setPixelRatio(dpr);
+        this.renderer.setSize(window.innerWidth, window.innerHeight);
+
+        this.setupLights();
+        this.createDeveloperCore();
+        this.createParticleField();
+
+        window.addEventListener('resize', () => this.onResize(), { passive: true });
+        this.animate();
+      }
+
+      setupLights() {
+        const ambientLight = new THREE.AmbientLight(0xffffff, 0.8);
+        this.scene.add(ambientLight);
+
+        const dirLight = new THREE.DirectionalLight(0x00F0FF, 2.0);
+        dirLight.position.set(5, 5, 5);
+        this.scene.add(dirLight);
+
+        const pointLight = new THREE.PointLight(0xFF2A54, 3.0, 50);
+        pointLight.position.set(-5, -3, -2);
+        this.scene.add(pointLight);
+
+        const fillLight = new THREE.PointLight(0x7000FF, 2.5, 50);
+        fillLight.position.set(3, -4, 4);
+        this.scene.add(fillLight);
+      }
+
+      createDeveloperCore() {
+        this.coreGroup = new THREE.Group();
+
+        const coreGeo = new THREE.IcosahedronGeometry(2.6, 4);
+        const coreMat = new THREE.MeshPhysicalMaterial({
+          color: 0x081528,
+          emissive: 0x002b4d,
+          roughness: 0.1,
+          metalness: 0.9,
+          clearcoat: 1.0,
+          clearcoatRoughness: 0.1,
+          reflectivity: 1.0,
+          wireframe: false
+        });
+        this.coreMesh = new THREE.Mesh(coreGeo, coreMat);
+        this.coreGroup.add(this.coreMesh);
+
+        const shellGeo = new THREE.IcosahedronGeometry(3.3, 2);
+        const shellMat = new THREE.MeshBasicMaterial({
+          color: 0x00F0FF,
+          wireframe: true,
+          transparent: true,
+          opacity: 0.25
+        });
+        this.shellMesh = new THREE.Mesh(shellGeo, shellMat);
+        this.coreGroup.add(this.shellMesh);
+
+        const ringGeo1 = new THREE.TorusGeometry(4.2, 0.02, 16, 100);
+        const ringMat1 = new THREE.MeshBasicMaterial({ color: 0x00F0FF, transparent: true, opacity: 0.6 });
+        this.ring1 = new THREE.Mesh(ringGeo1, ringMat1);
+        this.ring1.rotation.x = Math.PI / 3;
+        this.coreGroup.add(this.ring1);
+
+        const ringGeo2 = new THREE.TorusGeometry(4.8, 0.015, 16, 100);
+        const ringMat2 = new THREE.MeshBasicMaterial({ color: 0xFF2A54, transparent: true, opacity: 0.5 });
+        this.ring2 = new THREE.Mesh(ringGeo2, ringMat2);
+        this.ring2.rotation.y = Math.PI / 4;
+        this.coreGroup.add(this.ring2);
+
+        this.updateCorePosition();
+        this.scene.add(this.coreGroup);
+      }
+
+      updateCorePosition() {
+        if (window.innerWidth < 768) {
+          this.coreGroup.position.set(0, 2, -2);
+          this.coreGroup.scale.set(0.75, 0.75, 0.75);
+        } else {
+          this.coreGroup.position.set(4.2, 0.5, 0);
+          this.coreGroup.scale.set(1, 1, 1);
+        }
+      }
+
+      createParticleField() {
+        this.particleCount = 550;
+        const geometry = new THREE.BufferGeometry();
+        this.positions = new Float32Array(this.particleCount * 3);
+        this.basePositions = new Float32Array(this.particleCount * 3);
+        this.velocities = new Float32Array(this.particleCount * 3);
+        const colors = new Float32Array(this.particleCount * 3);
+
+        const cyanColor = new THREE.Color(0x00F0FF);
+        const violetColor = new THREE.Color(0x7000FF);
+        const whiteColor = new THREE.Color(0xffffff);
+
+        for (let i = 0; i < this.particleCount; i++) {
+          const i3 = i * 3;
+          const x = (Math.random() - 0.5) * 35;
+          const y = (Math.random() - 0.5) * 35;
+          const z = (Math.random() - 0.5) * 20;
+
+          this.positions[i3] = x;
+          this.positions[i3 + 1] = y;
+          this.positions[i3 + 2] = z;
+
+          this.basePositions[i3] = x;
+          this.basePositions[i3 + 1] = y;
+          this.basePositions[i3 + 2] = z;
+
+          this.velocities[i3] = (Math.random() - 0.5) * 0.01;
+          this.velocities[i3 + 1] = Math.random() * 0.015 + 0.005;
+          this.velocities[i3 + 2] = (Math.random() - 0.5) * 0.01;
+
+          const mixFactor = Math.random();
+          let particleColor;
+          if (mixFactor < 0.5) particleColor = cyanColor;
+          else if (mixFactor < 0.85) particleColor = violetColor;
+          else particleColor = whiteColor;
+
+          colors[i3] = particleColor.r;
+          colors[i3 + 1] = particleColor.g;
+          colors[i3 + 2] = particleColor.b;
+        }
+
+        geometry.setAttribute('position', new THREE.BufferAttribute(this.positions, 3));
+        geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+
+        const canvas = document.createElement('canvas');
+        canvas.width = 32;
+        canvas.height = 32;
+        const ctx = canvas.getContext('2d');
+        const grad = ctx.createRadialGradient(16, 16, 0, 16, 16, 16);
+        grad.addColorStop(0, 'rgba(255, 255, 255, 1)');
+        grad.addColorStop(0.4, 'rgba(255, 255, 255, 0.8)');
+        grad.addColorStop(1, 'rgba(255, 255, 255, 0)');
+        ctx.fillStyle = grad;
+        ctx.fillRect(0, 0, 32, 32);
+
+        const particleTexture = new THREE.CanvasTexture(canvas);
+
+        const material = new THREE.PointsMaterial({
+          size: 0.22,
+          vertexColors: true,
+          map: particleTexture,
+          transparent: true,
+          blending: THREE.AdditiveBlending,
+          depthWrite: false
+        });
+
+        this.particles = new THREE.Points(geometry, material);
+        this.scene.add(this.particles);
+      }
+
+      onResize() {
+        this.camera.aspect = window.innerWidth / window.innerHeight;
+        this.camera.updateProjectionMatrix();
+        this.renderer.setSize(window.innerWidth, window.innerHeight);
+        this.updateCorePosition();
+      }
+
+      animate() {
+        requestAnimationFrame(() => this.animate());
+
+        if (!isTabActive) return;
+
+        mouse.x += (mouse.targetX - mouse.x) * 0.05;
+        mouse.y += (mouse.targetY - mouse.y) * 0.05;
+
+        const time = performance.now() * 0.001;
+
+        if (this.coreGroup) {
+          this.coreGroup.position.y = (window.innerWidth < 768 ? 2 : 0.5) + Math.sin(time * 1.5) * 0.25;
+          const pulseScale = 1 + Math.sin(time * 2.5) * 0.03;
+          this.coreMesh.scale.set(pulseScale, pulseScale, pulseScale);
+
+          const targetRotY = mouse.x * 0.6;
+          const targetRotX = -mouse.y * 0.6;
+          this.coreGroup.rotation.y += (targetRotY - this.coreGroup.rotation.y) * 0.05;
+          this.coreGroup.rotation.x += (targetRotX - this.coreGroup.rotation.x) * 0.05;
+
+          this.coreMesh.rotation.y += 0.005;
+          this.shellMesh.rotation.y -= 0.008;
+          this.shellMesh.rotation.z += 0.003;
+          this.ring1.rotation.z += 0.01;
+          this.ring2.rotation.x += 0.012;
+        }
+
+        if (this.particles) {
+          const positionAttr = this.particles.geometry.attributes.position;
+          const positions = positionAttr.array;
+          const mouse3D = new THREE.Vector3(mouse.x * 12, mouse.y * 8, 0);
+
+          for (let i = 0; i < this.particleCount; i++) {
+            const i3 = i * 3;
+
+            positions[i3 + 1] += this.velocities[i3 + 1];
+
+            if (positions[i3 + 1] > 18) {
+              positions[i3 + 1] = -18;
+              positions[i3] = (Math.random() - 0.5) * 35;
+            }
+
+            const px = positions[i3];
+            const py = positions[i3 + 1];
+
+            const dx = px - mouse3D.x;
+            const dy = py - mouse3D.y;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+
+            if (dist < 4.5) {
+              const force = (4.5 - dist) / 4.5;
+              positions[i3] += (dx / dist) * force * 0.15;
+              positions[i3 + 1] += (dy / dist) * force * 0.15;
+            } else {
+              positions[i3] += (this.basePositions[i3] - positions[i3]) * 0.02;
+            }
+          }
+
+          positionAttr.needsUpdate = true;
+        }
+
+        this.renderer.render(this.scene, this.camera);
+      }
+    }
+
+    // Initialize All Subsystems on DOM Load
+    window.addEventListener('DOMContentLoaded', () => {
+      window.sceneEngine = new SceneEngine();
+      renderProjects('all');
+      renderSkillsMatrix();
+      initSkillsCanvas();
+      initContactForm();
+    });
+  </script>
 </body>
 </html>
